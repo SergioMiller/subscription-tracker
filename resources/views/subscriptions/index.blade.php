@@ -25,6 +25,12 @@
                         </span>
                         <span class="text-gray-500"> per {{ $subscription->type->per() }}</span>
                     </p>
+                    <a href="{{ route('subscriptions.edit', $subscription->getKey()) }}" class="text-green-400">
+                        subscribe
+                    </a>
+                    <a href="{{ route('subscriptions.edit', $subscription->getKey()) }}" class="text-yellow-400">
+                        unsubscribe
+                    </a>
                     <a href="{{ route('subscriptions.edit', $subscription->getKey()) }}" class="text-blue-400">
                         edit
                     </a>

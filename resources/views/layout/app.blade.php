@@ -12,7 +12,7 @@
 <div class="p-5">
     <div class="container mx-auto max-w-screen-xl">
         @include('layout._alerts')
-        
+
         @yield('content')
     </div>
 </div>
