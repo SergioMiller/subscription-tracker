@@ -5,7 +5,6 @@ namespace Database\Seeders;
 
 use App\Entities\Currency;
 use App\Entities\ExchangeRate;
-use App\Entities\Subscription;
 use App\Entities\User;
 use Carbon\Carbon;
 use Database\Factories\SubscriptionFactory;
@@ -20,18 +19,21 @@ class DatabaseSeeder extends Seeder
 
         Currency::query()->insertOrIgnore([
             [
+                'id' => Currency::DEFAULT_CURRENCY_ID,
                 'name' => 'US Dollar',
                 'code' => Currency::USD,
                 'symbol' => '$',
                 'created_at' => $createdAt
             ],
             [
+                'id' => 2,
                 'name' => 'Euro',
                 'code' => 'EUR',
                 'symbol' => '€',
                 'created_at' => $createdAt
             ],
             [
+                'id' => 3,
                 'name' => 'Hryvnia',
                 'code' => 'UAH',
                 'symbol' => '₴',

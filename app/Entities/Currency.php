@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Currency extends Model
 {
+    public const int DEFAULT_CURRENCY_ID = 1;
+
     public const string USD = 'USD';
 
     public const string EUR = 'EUR';

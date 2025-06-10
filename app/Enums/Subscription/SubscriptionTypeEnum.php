@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace App\Enums\Subscription;
 
+use App\Helpers\EnumHelper;
+
 enum SubscriptionTypeEnum: string
 {
+    use EnumHelper;
+
     case DAILY = 'daily';
     case WEEKLY = 'weekly';
     case MONTHLY = 'monthly';

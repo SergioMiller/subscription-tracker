@@ -18,7 +18,7 @@ class SubscriptionRepository extends AbstractRepository implements SubscriptionR
     public function paginate(array $filter): LengthAwarePaginator
     {
         return $this->paginator(
-            callback: fn(Builder $query) => $query->with('currency')->latest('id'),
+            callback: fn (Builder $query) => $query->with('currency')->latest('id'),
             paginationDto: new PaginationDto($filter)
         );
     }

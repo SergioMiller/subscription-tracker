@@ -22,7 +22,7 @@ final readonly class UpdateDto
             name: $data['name'],
             description: $data['description'],
             price: (float) $data['price'],
-            currencyId: $data['currency_id'],
+            currencyId: (int) $data['currency_id'],
             type: SubscriptionTypeEnum::from($data['type']),
         );
     }

@@ -32,4 +32,9 @@ class Subscription extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function getPrice(): float
+    {
+        return $this->price / 100;
+    }
 }
