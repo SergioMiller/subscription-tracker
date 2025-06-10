@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Entities\Currency;
 use App\Entities\ExchangeRate;
 use App\Interfaces\Repositories\ExchangeRateRepositoryInterface;
 

@@ -1,0 +1,45 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Entities;
+
+use App\Enums\Subscription\SubscriptionStatusEnum;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $subscription_id
+ * @property int $currency_id
+ * @property int $price
+ * @property int $base_price
+ * @property SubscriptionStatusEnum $status
+ * @property Carbon|string $start_at
+ * @property Carbon|string $finish_at
+ * @property Carbon|string $created_at
+ * @property Carbon|string $updated_at
+ * @property-read User $user
+ * @property-read Subscription $subscription
+ */
+class UserSubscription extends Model
+{
+    protected $table = 'user_subscriptions';
+
+    protected $casts = [
+        'status' => SubscriptionStatusEnum::class,
+        'start_at' => 'datetime',
+        'finish_at' => 'datetime',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function subscription(): BelongsTo
+    {
+        return $this->belongsTo(Subscription::class);
+    }
+}

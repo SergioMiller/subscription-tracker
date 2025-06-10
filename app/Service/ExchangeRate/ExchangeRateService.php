@@ -16,7 +16,7 @@ final readonly class ExchangeRateService
 
     public function getBasePrice(Currency $currency, int $price): int
     {
-        if ($currency->getKey() === Currency::DEFAULT_CURRENCY_ID) {
+        if (Currency::DEFAULT_CURRENCY_ID === $currency->getKey()) {
             return $price;
         }
 

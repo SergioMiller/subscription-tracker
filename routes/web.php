@@ -15,4 +15,8 @@ Route::group(['middleware' => [UserMiddleware::class]], static function () {
     Route::put('/account', [AccountController::class, 'update'])->name('account.update');
 
     Route::resource('subscriptions', SubscriptionController::class)->parameter('subscriptions', 'id');
+    Route::post('subscriptions/{id}/subscribe', [SubscriptionController::class, 'subscribe'])
+        ->name('subscriptions.subscribe');
+    Route::post('subscriptions/{id}/unsubscribe', [SubscriptionController::class, 'unsubscribe'])
+        ->name('subscriptions.unsubscribe');
 });

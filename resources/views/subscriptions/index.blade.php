@@ -25,21 +25,43 @@
                         </span>
                         <span class="text-gray-500"> per {{ $subscription->type->per() }}</span>
                     </p>
-                    <a href="{{ route('subscriptions.edit', $subscription->getKey()) }}" class="text-green-400">
-                        subscribe
-                    </a>
-                    <a href="{{ route('subscriptions.edit', $subscription->getKey()) }}" class="text-yellow-400">
-                        unsubscribe
-                    </a>
+
+                    @if(in_array($subscription->getKey(), $active_subscriptions, true))
+                        <a class="text-yellow-400" href="javascript:void(0);"
+                           onclick="event.preventDefault(); return submit(this)"
+                           data-form="action-unsubscribe-{{ $subscription->getKey() }}">
+                            unsubscribe
+                        </a>
+                        <form id="action-unsubscribe-{{ $subscription->getKey() }}"
+                              class="hidden"
+                              action="{{ route('subscriptions.unsubscribe', $subscription->getKey()) }}"
+                              method="POST">
+                            @csrf
+                        </form>
+                    @else
+                        <a class="text-green-400" href="javascript:void(0);"
+                           onclick="event.preventDefault(); return submit(this)"
+                           data-form="action-subscribe-{{ $subscription->getKey() }}">
+                            subscribe
+                        </a>
+                        <form id="action-subscribe-{{ $subscription->getKey() }}"
+                              class="hidden"
+                              action="{{ route('subscriptions.subscribe', $subscription->getKey()) }}"
+                              method="POST">
+                            @csrf
+                        </form>
+                    @endif
+
                     <a href="{{ route('subscriptions.edit', $subscription->getKey()) }}" class="text-blue-400">
                         edit
                     </a>
+
                     <a class="text-red-400" href="javascript:void(0);"
                        onclick="event.preventDefault(); return submit(this)"
-                       data-form="action-{{ $subscription->getKey }}">
+                       data-form="action-{{ $subscription->getKey() }}">
                         delete
                     </a>
-                    <form id="action-{{ $subscription->getKey }}"
+                    <form id="action-{{ $subscription->getKey() }}"
                           action="{{ route('subscriptions.destroy', $subscription->getKey()) }}"
                           method="POST">
                         @csrf
