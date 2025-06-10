@@ -9,8 +9,10 @@
 <body>
 @include('layout._header')
 
-<div class="container max-w-6/10 mx-auto p-5">
-    @yield('content')
+<div class="p-5">
+    <div class="container mx-auto max-w-screen-xl">
+        @yield('content')
+    </div>
 </div>
 
 </body>

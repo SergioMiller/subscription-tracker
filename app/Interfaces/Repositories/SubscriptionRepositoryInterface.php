@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Interfaces\Repositories;
 
 use App\Entities\Subscription;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * @method Subscription save(Subscription $entity)
@@ -11,4 +12,5 @@ use App\Entities\Subscription;
  */
 interface SubscriptionRepositoryInterface extends RepositoryInterface
 {
+    public function paginate(array $filter): LengthAwarePaginator;
 }

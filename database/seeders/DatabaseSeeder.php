@@ -5,8 +5,10 @@ namespace Database\Seeders;
 
 use App\Entities\Currency;
 use App\Entities\ExchangeRate;
+use App\Entities\Subscription;
 use App\Entities\User;
 use Carbon\Carbon;
+use Database\Factories\SubscriptionFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
@@ -14,13 +16,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        if (User::query()->where('email', 'test@example.com')->doesntExist()) {
-            UserFactory::new()->create([
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-            ]);
-        }
-
         $createdAt = Carbon::now()->toDateTimeString();
 
         Currency::query()->insertOrIgnore([
@@ -68,5 +63,15 @@ class DatabaseSeeder extends Seeder
 
         ExchangeRate::query()->insert($rates);
         ExchangeRate::query()->update(['created_at' => $createdAt]);
+
+        if (User::query()->where('email', 'test@example.com')->doesntExist()) {
+            UserFactory::new()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'default_currency_id' => $usdId,
+            ]);
+        }
+
+        SubscriptionFactory::new()->count(3)->create();
     }
 }

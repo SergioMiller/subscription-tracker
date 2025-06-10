@@ -12,7 +12,7 @@
             <input type="text"
                    id="name"
                    name="name"
-                   value="{{ old('name', $user->name) }}"
+                   value="{{ old('name', $user->name ?? null) }}"
                    class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-500 text-red-900 placeholder-red-700 @enderror"/>
             @error('name')
             <p class="mt-1 text-sm text-red-600 dark:text-red-500">
@@ -27,7 +27,7 @@
             <input type="email"
                    id="email"
                    name="email"
-                   value="{{ old('email', $user->email) }}"
+                   value="{{ old('email', $user->email ?? null) }}"
                    class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('email') border-red-500 text-red-900 placeholder-red-700 @enderror"/>
             @error('email')
             <p class="mt-1 text-sm text-red-600 dark:text-red-500">
@@ -62,7 +62,7 @@
                            name="default_currency_id"
                            value="{{ old('id', $currency->id) }}"
                            class="w-4 h-4 border-gray-300 cursor-pointer"
-                        @checked($user->default_currency_id === $currency->id)
+                        @checked($user->default_currency_id ?? null === $currency->id)
                     >
                     <label for="country-option-{{ $currency->id }}"
                            class="block ms-2  text-sm font-medium text-gray-900 cursor-pointer">

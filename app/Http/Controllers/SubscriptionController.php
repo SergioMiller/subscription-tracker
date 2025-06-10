@@ -5,19 +5,38 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Subscription\StoreRequest;
 use App\Http\Requests\Subscription\UpdateRequest;
+use App\Interfaces\Repositories\CurrencyRepositoryInterface;
 use App\Interfaces\Repositories\SubscriptionRepositoryInterface;
 use App\Service\Subscription\Dto\StoreDto;
 use App\Service\Subscription\Dto\UpdateDto;
 use App\Service\Subscription\SubscriptionService;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final readonly class SubscriptionController
+final  class SubscriptionController extends Controller
 {
     public function __construct(
-        private SubscriptionRepositoryInterface $subscriptionRepository,
-        private SubscriptionService $subscriptionService,
+        private readonly SubscriptionRepositoryInterface $subscriptionRepository,
+        private readonly SubscriptionService $subscriptionService,
+        private readonly CurrencyRepositoryInterface $currencyRepository,
     ) {
     }
+
+    public function index(Request $request): View
+    {
+        $paginator = $this->subscriptionRepository->paginate([]);
+
+        return view('subscriptions.index', ['paginator' => $paginator]);
+    }
+
+    public function create(): View
+    {
+        return view('subscriptions.create', [
+            'currencies' => $this->currencyRepository->getAll(),
+        ]);
+    }
+
 
     public function store(StoreRequest $request): void
     {

@@ -12,10 +12,7 @@ class UserMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        /**
-         * Temporary user auth
-         */
-        $request->setUserResolver(fn () => User::query()->first());
+        $request->setUserResolver(fn() => User::query()->first());
 
         return $next($request);
     }
