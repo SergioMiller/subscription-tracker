@@ -31,4 +31,26 @@ final readonly class ExchangeRateService
 
         return (int) ($price * $rate->rate);
     }
+
+    public function getUserPrice(Currency $currency, Currency $userCurrency, int $price): int
+    {
+        if ($currency->getKey() === $userCurrency->getKey()) {
+            return $price;
+        }
+
+        if ($currency->exchangeRates->first()) {
+            $rate = $currency->exchangeRates->first();
+        } else {
+            $rate = $this->exchangeRateRepository->getRate(
+                fromId: $currency->getKey(),
+                toId: $userCurrency->getKey()
+            );
+        }
+
+        if (null === $rate) {
+            throw new ModelNotFoundException('Rate not found.');
+        }
+
+        return (int) ($price * $rate->rate);
+    }
 }

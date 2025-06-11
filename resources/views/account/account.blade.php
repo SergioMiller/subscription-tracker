@@ -62,7 +62,7 @@
                            name="default_currency_id"
                            value="{{ old('id', $currency->getKey()) }}"
                            class="w-4 h-4 border-gray-300 cursor-pointer"
-                        @checked($user->default_currency_id ?? null === $currency->getKey())
+                        @checked($user->default_currency_id === $currency->getKey())
                     >
                     <label for="currency-option-{{ $currency->getKey() }}"
                            class="block ms-2  text-sm font-medium text-gray-900 cursor-pointer">

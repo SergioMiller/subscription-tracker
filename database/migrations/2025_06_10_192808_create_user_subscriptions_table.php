@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->timestamp('start_at');
             $table->timestamp('finish_at');
             $table->timestamps();
+
+            $table->unique(['user_id', 'subscription_id']);
         });
     }
 

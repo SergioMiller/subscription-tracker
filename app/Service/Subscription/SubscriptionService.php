@@ -61,7 +61,7 @@ final readonly class SubscriptionService
     {
         $currentSubscription = $this->userSubscriptionRepository->getBySubscription($user, $entity);
 
-        if (null !== $currentSubscription) {
+        if (null !== $currentSubscription && $currentSubscription->finish_at->isFuture()) {
             throw new UnprocessableEntityHttpException('Subscription already exists.');
         }
 

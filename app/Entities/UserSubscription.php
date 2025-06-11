@@ -22,6 +22,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon|string $updated_at
  * @property-read User $user
  * @property-read Subscription $subscription
+ * @property-read Currency $currency
+ * @property int $user_price
+ * @property Currency $user_currency
  */
 class UserSubscription extends Model
 {
@@ -41,5 +44,39 @@ class UserSubscription extends Model
     public function subscription(): BelongsTo
     {
         return $this->belongsTo(Subscription::class);
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    public function getPrice(): float
+    {
+        return round($this->price / 100, 2);
+    }
+
+    public function setUserPrice(int $userPrice): static
+    {
+        $this->user_price = $userPrice;
+
+        return $this;
+    }
+
+    public function setUserCurrency(Currency $userCurrency): static
+    {
+        $this->user_currency = $userCurrency;
+
+        return $this;
+    }
+
+    public function getUserPrice(): float
+    {
+        return round($this->user_price / 100, 2);
+    }
+
+    public function getUserCurrency(): Currency
+    {
+        return $this->user_currency;
     }
 }

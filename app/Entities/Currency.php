@@ -5,6 +5,8 @@ namespace App\Entities;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $symbol
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Collection|ExchangeRate[] $exchangeRates
  */
 class Currency extends Model
 {
@@ -25,4 +28,9 @@ class Currency extends Model
     public const string UAH = 'UAH';
 
     protected $table = 'currencies';
+
+    public function exchangeRates(): HasMany
+    {
+        return $this->hasMany(ExchangeRate::class, 'from_currency_id', 'id');
+    }
 }

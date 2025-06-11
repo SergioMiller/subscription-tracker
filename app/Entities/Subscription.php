@@ -35,6 +35,6 @@ class Subscription extends Model
 
     public function getPrice(): float
     {
-        return $this->price / 100;
+        return round($this->price / 100, 2);
     }
 }

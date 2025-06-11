@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
  */
 interface UserSubscriptionRepositoryInterface extends RepositoryInterface
 {
-    public function paginate(array $filter): LengthAwarePaginator;
+    public function paginate(User $user, array $filter = []): LengthAwarePaginator;
 
     public function activeSubscriptions(User $user): Collection;
 

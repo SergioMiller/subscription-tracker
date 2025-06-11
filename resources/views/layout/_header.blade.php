@@ -20,7 +20,14 @@
                         <a href="{{ route('subscriptions.index') }}"
                            class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
                         >
-                            Subscriptions
+                            All subscriptions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('user-subscriptions.index') }}"
+                           class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white"
+                        >
+                            My subscriptions
                         </a>
                     </li>
                 </ul>

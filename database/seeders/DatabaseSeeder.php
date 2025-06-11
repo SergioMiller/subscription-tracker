@@ -5,14 +5,21 @@ namespace Database\Seeders;
 
 use App\Entities\Currency;
 use App\Entities\ExchangeRate;
+use App\Entities\Subscription;
 use App\Entities\User;
+use App\Enums\Subscription\SubscriptionTypeEnum;
+use App\Service\Subscription\Dto\StoreDto;
+use App\Service\Subscription\SubscriptionService;
 use Carbon\Carbon;
-use Database\Factories\SubscriptionFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    public function __construct(private readonly SubscriptionService $subscriptionService)
+    {
+    }
+
     public function run(): void
     {
         $createdAt = Carbon::now()->toDateTimeString();
@@ -74,6 +81,34 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        SubscriptionFactory::new()->count(3)->create();
+        Subscription::query()->truncate();
+
+        $subscriptions = [
+            new StoreDto(
+                name: 'Netflix',
+                description: 'Watch movies.',
+                price: 19.99,
+                currencyId: $usdId,
+                type: SubscriptionTypeEnum::MONTHLY,
+            ),
+            new StoreDto(
+                name: 'PhpStorm',
+                description: 'Write the code.',
+                price: 2.99,
+                currencyId: $eurId,
+                type: SubscriptionTypeEnum::WEEKLY,
+            ),
+            new StoreDto(
+                name: 'Tinder',
+                description: 'Have a good date.',
+                price: 24.99,
+                currencyId: $uahId,
+                type: SubscriptionTypeEnum::DAILY,
+            )
+        ];
+
+        foreach ($subscriptions as $subscription) {
+            $this->subscriptionService->store($subscription);
+        }
     }
 }
