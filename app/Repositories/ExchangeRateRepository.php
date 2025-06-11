@@ -6,7 +6,7 @@ namespace App\Repositories;
 use App\Entities\ExchangeRate;
 use App\Interfaces\Repositories\ExchangeRateRepositoryInterface;
 
-class ExchangeRateRepository implements ExchangeRateRepositoryInterface
+final class ExchangeRateRepository implements ExchangeRateRepositoryInterface
 {
     public function entityClassName(): string
     {

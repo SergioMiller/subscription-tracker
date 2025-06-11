@@ -8,7 +8,7 @@ use App\Interfaces\Repositories\SubscriptionRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class SubscriptionRepository extends AbstractRepository implements SubscriptionRepositoryInterface
+final class SubscriptionRepository extends AbstractRepository implements SubscriptionRepositoryInterface
 {
     public function entityClassName(): string
     {

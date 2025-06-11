@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
  * @property Carbon $updated_at
  * @property Collection|ExchangeRate[] $exchangeRates
  */
-class Currency extends Model
+final class Currency extends Model
 {
     public const int DEFAULT_CURRENCY_ID = 1;
 

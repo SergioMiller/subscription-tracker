@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends Factory<Subscription>
  */
-class SubscriptionFactory extends Factory
+final class SubscriptionFactory extends Factory
 {
     protected $model = Subscription::class;
 

@@ -7,10 +7,17 @@
     @if($paginator->isEmpty())
         <p class="lg:text-primary-700">Nothing found.</p>
     @else
+        <div class="mb-5">
+            <p>Next month: {{ $forecast->getTotal30() }} {{ $forecast->getCurrency()->symbol }}</p>
+            <p>Next year: {{ $forecast->getTotal365() }} {{ $forecast->getCurrency()->symbol }}</p>
+        </div>
         @foreach($items as $subscription)
             <div class="p-3 border-1 border-gray-200 rounded-md mb-5 flex flex-wrap justify-between">
                 <div>
                     <p class="lg:text-primary-800 text-gray-800 mb-2">{{ $subscription->subscription->name }}</p>
+                    <p class="lg:text-primary-800 text-gray-800 mb-2">
+                        {{ $subscription->status }}
+                    </p>
                     <p class="text-gray-500">{{ $subscription->subscription->description }}</p>
                 </div>
                 <div class="text-right">

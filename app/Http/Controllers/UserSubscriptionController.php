@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Entities\UserSubscription;
 use App\Interfaces\Repositories\UserSubscriptionRepositoryInterface;
 use App\Service\ExchangeRate\ExchangeRateService;
+use App\Service\Forecast\ForecastService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -14,7 +15,8 @@ final class UserSubscriptionController extends Controller
 {
     public function __construct(
         private readonly UserSubscriptionRepositoryInterface $userSubscriptionRepository,
-        private readonly ExchangeRateService $exchangeRateService
+        private readonly ExchangeRateService $exchangeRateService,
+        private readonly ForecastService $forecastService,
     ) {
     }
 
@@ -37,6 +39,7 @@ final class UserSubscriptionController extends Controller
 
                     return $item;
                 }),
+            'forecast' => $this->forecastService->get($user),
         ]);
     }
 }

@@ -6,7 +6,7 @@ namespace App\Repositories;
 use App\Entities\Currency;
 use App\Interfaces\Repositories\CurrencyRepositoryInterface;
 
-class CurrencyRepository extends AbstractRepository implements CurrencyRepositoryInterface
+final class CurrencyRepository extends AbstractRepository implements CurrencyRepositoryInterface
 {
     public function entityClassName(): string
     {

@@ -5,52 +5,69 @@ namespace App\Service\ExchangeRate;
 
 use App\Entities\Currency;
 use App\Interfaces\Repositories\ExchangeRateRepositoryInterface;
+use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Psr\SimpleCache\InvalidArgumentException;
 
 final readonly class ExchangeRateService
 {
     public function __construct(
         private ExchangeRateRepositoryInterface $exchangeRateRepository,
+        private CacheManager $cache,
     ) {
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function getBasePrice(Currency $currency, int $price): int
     {
         if (Currency::DEFAULT_CURRENCY_ID === $currency->getKey()) {
             return $price;
         }
 
-        $rate = $this->exchangeRateRepository->getRate(
-            fromId: $currency->getKey(),
-            toId: Currency::DEFAULT_CURRENCY_ID
-        );
+        $rate = $this->getRate($currency->getKey(), Currency::DEFAULT_CURRENCY_ID);
 
-        if (null === $rate) {
-            throw new ModelNotFoundException('Rate not found.');
-        }
-
-        return (int) ($price * $rate->rate);
+        return $this->applyRate($price, $rate);
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function getUserPrice(Currency $currency, Currency $userCurrency, int $price): int
     {
         if ($currency->getKey() === $userCurrency->getKey()) {
             return $price;
         }
 
-        if ($currency->exchangeRates->first()) {
-            $rate = $currency->exchangeRates->first();
-        } else {
-            $rate = $this->exchangeRateRepository->getRate(
-                fromId: $currency->getKey(),
-                toId: $userCurrency->getKey()
-            );
+        $rate = $this->getRate($currency->getKey(), $userCurrency->getKey());
+
+        return $this->applyRate($price, $rate);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function getRate(int $from, int $to): float|null
+    {
+        $pattern = sprintf('exchange_rate_%s_%s', $from, $to);
+        $rate = $this->cache->get($pattern);
+
+        if (null === $rate) {
+            $rate = $this->exchangeRateRepository->getRate($from, $to)?->getAttribute('rate');
         }
 
         if (null === $rate) {
             throw new ModelNotFoundException('Rate not found.');
         }
 
-        return (int) ($price * $rate->rate);
+        $this->cache->set(key: $pattern, value: $rate, ttl: 60);
+
+        return $rate;
+    }
+
+    private function applyRate(int $price, float $rate): int
+    {
+        return (int) ($price * $rate);
     }
 }

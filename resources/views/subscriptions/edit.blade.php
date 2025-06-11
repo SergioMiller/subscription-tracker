@@ -42,7 +42,7 @@
             <label for="price"
                    class="block mb-2 text-sm font-medium text-gray-900 @error('price') text-red-700 @enderror">Price</label>
 
-            <input type="number"
+            <input type="text"
                    id="price"
                    name="price"
                    value="{{ old('price', $entity->getPrice()) }}"
@@ -90,7 +90,7 @@
                            name="type"
                            value="{{ old('type', $key) }}"
                            class="w-4 h-4 border-gray-300 cursor-pointer"
-                        @checked(old('type', $entity->type->value) === $entity->type->value)
+                        @checked(old('type', $entity->type->value) === $key)
                     >
                     <label for="type-option-{{ $key }}"
                            class="block ms-2  text-sm font-medium text-gray-900 cursor-pointer">

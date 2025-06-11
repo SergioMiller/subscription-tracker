@@ -31,7 +31,7 @@ final readonly class SubscriptionService
         $entity = new Subscription();
         $entity->name = $data->getName();
         $entity->description = $data->getDescription();
-        $entity->price = (int) ($data->getPrice() * 100);
+        $entity->price = (int) round($data->getPrice() * 100);
         $entity->currency_id = $data->getCurrencyId();
         $entity->type = $data->getType();
 

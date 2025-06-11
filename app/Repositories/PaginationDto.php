@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-readonly class PaginationDto
+final readonly class PaginationDto
 {
     protected const int DEFAULT_PER_PAGE = 10;
 

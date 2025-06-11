@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     public function __construct(private readonly SubscriptionService $subscriptionService)
     {

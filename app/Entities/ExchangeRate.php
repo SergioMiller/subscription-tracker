@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class ExchangeRate extends Model
+final class ExchangeRate extends Model
 {
     protected $table = 'exchange_rates';
 

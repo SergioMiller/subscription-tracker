@@ -15,7 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
-class UserSubscriptionRepository extends AbstractRepository implements UserSubscriptionRepositoryInterface
+final class UserSubscriptionRepository extends AbstractRepository implements UserSubscriptionRepositoryInterface
 {
     public function entityClassName(): string
     {
@@ -50,8 +50,6 @@ class UserSubscriptionRepository extends AbstractRepository implements UserSubsc
             ->newQuery()
             ->where('user_id', $user->getKey())
             ->where('user_subscriptions.status', SubscriptionStatusEnum::ACTIVE)
-            ->where('user_subscriptions.start_at', '<', $now)
-            ->where('user_subscriptions.finish_at', '>', $now)
             ->get();
     }
 

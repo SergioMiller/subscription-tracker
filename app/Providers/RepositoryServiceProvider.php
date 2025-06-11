@@ -15,7 +15,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\UserSubscriptionRepository;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryServiceProvider extends ServiceProvider
+final class RepositoryServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

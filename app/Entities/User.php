@@ -18,7 +18,7 @@ use Illuminate\Notifications\Notifiable;
  * @property int $default_currency_id
  * @property-read Currency $defaultCurrency
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 

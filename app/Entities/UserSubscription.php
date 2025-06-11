@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_price
  * @property Currency $user_currency
  */
-class UserSubscription extends Model
+final class UserSubscription extends Model
 {
     protected $table = 'user_subscriptions';
 

@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Carbon $updated_at
  * @property-read  Currency $currency
  */
-class Subscription extends Model
+final class Subscription extends Model
 {
     protected $table = 'subscriptions';
 

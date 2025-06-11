@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-class UpdateRequest extends FormRequest
+final class UpdateRequest extends FormRequest
 {
     public function rules(): array
     {

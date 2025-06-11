@@ -8,7 +8,7 @@ use App\Enums\Subscription\SubscriptionTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+final class UpdateRequest extends FormRequest
 {
     public function rules(): array
     {
