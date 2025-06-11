@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Entities\UserSubscription;
+use App\Enums\Subscription\SubscriptionTypeEnum;
 use App\Interfaces\Repositories\UserSubscriptionRepositoryInterface;
 use App\Service\ExchangeRate\ExchangeRateService;
 use App\Service\Forecast\ForecastService;
@@ -23,7 +24,7 @@ final class UserSubscriptionController extends Controller
     public function index(Request $request): View
     {
         $user = $request->user();
-        $paginator = $this->userSubscriptionRepository->paginate($request->user());
+        $paginator = $this->userSubscriptionRepository->paginate($request->user(), $request->query());
 
         return view('user-subscriptions.index', [
             'paginator' => $paginator,
@@ -40,6 +41,16 @@ final class UserSubscriptionController extends Controller
                     return $item;
                 }),
             'forecast' => $this->forecastService->get($user),
+            'filter' => [
+                'data' => [
+                    'type' => SubscriptionTypeEnum::values(),
+                    'price' => [
+                        'base',
+                        'converted',
+                    ],
+                ],
+                'filled' => $request->query(),
+            ]
         ]);
     }
 }

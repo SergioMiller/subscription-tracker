@@ -9,11 +9,10 @@ use App\Entities\UserSubscription;
 use App\Enums\Subscription\SubscriptionStatusEnum;
 use App\Interfaces\Repositories\UserSubscriptionRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 final class UserSubscriptionRepository extends AbstractRepository implements UserSubscriptionRepositoryInterface
 {
@@ -26,17 +25,54 @@ final class UserSubscriptionRepository extends AbstractRepository implements Use
     {
         return $this->paginator(
             callback: fn (Builder $query) => $query
+                ->select(['user_subscriptions.*'])
                 ->where('user_id', $user->getKey())
-                ->with([
-                    'subscription',
-                    'currency' => function (BelongsTo $query) use ($user) {
-                        $query->with([
-                            'exchangeRates' => function (HasMany $query) use ($user) {
-                                $query->where('to_currency_id', $user->default_currency_id);
-                            }
-                        ]);
+                ->with(['subscription', 'currency'])
+                ->when(
+                    value: !empty($filter['type']),
+                    callback: fn (Builder $query) => $query->whereHas(
+                        relation: 'subscription',
+                        callback: fn (Builder $query) => $query->where('type', $filter['type'])
+                    )
+                )
+                ->when(
+                    value: !empty($filter['price_min']) || !empty($filter['price_max']),
+                    callback: function (Builder $query) use ($filter, $user) {
+                        $min = $filter['price_min'] ? ($filter['price_min'] * 100) : null;
+                        $max = $filter['price_max'] ? ($filter['price_max'] * 100) : null;
+
+                        $column = match ($filter['price']) {
+                            'base' => 'price',
+                            default => 'converted',
+                        };
+
+                        if ('converted' === $column) {
+                            $query->leftJoin('currencies', 'currencies.id', '=', 'user_subscriptions.currency_id')
+                                ->leftJoin('exchange_rates', function (JoinClause $leftJoin) use ($user) {
+                                    $leftJoin->on('currencies.id', '=', 'exchange_rates.from_currency_id');
+                                    $leftJoin->on('exchange_rates.to_currency_id', '=', DB::raw($user->default_currency_id));
+                                });
+                            $column = DB::raw('user_subscriptions.price * exchange_rates.rate');
+                        }
+
+                        if ($min && $max) {
+                            $query->whereBetween($column, [$min, $max]);
+                        } elseif ($min) {
+                            $query->where($column, '>=', $min);
+                        } elseif ($max) {
+                            $query->where($column, '<=', $max);
+                        }
                     }
-                ])
+                )
+                ->when(
+                    value: !empty($filter['month']),
+                    callback: function (Builder $query) use ($filter) {
+                        [$year, $month] = explode('-', $filter['month']);
+
+                        $query->whereMonth('finish_at', $month);
+                        $query->whereYear('finish_at', $year);
+                    }
+                )
                 ->latest('id'),
             paginationDto: new PaginationDto($filter)
         );
@@ -44,8 +80,6 @@ final class UserSubscriptionRepository extends AbstractRepository implements Use
 
     public function activeSubscriptions(User $user): Collection
     {
-        $now = Carbon::now()->toDateTimeString();
-
         return $this->getEntity()
             ->newQuery()
             ->where('user_id', $user->getKey())

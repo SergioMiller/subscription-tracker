@@ -58,14 +58,17 @@ final class DatabaseSeeder extends Seeder
 
         $rates = [
             // USD
+            ['from_currency_id' => $usdId, 'to_currency_id' => $usdId, 'rate' => 1],
             ['from_currency_id' => $usdId, 'to_currency_id' => $eurId, 'rate' => 0.87],
             ['from_currency_id' => $usdId, 'to_currency_id' => $uahId, 'rate' => 41.00],
 
             // EUR
+            ['from_currency_id' => $eurId, 'to_currency_id' => $eurId, 'rate' => 1],
             ['from_currency_id' => $eurId, 'to_currency_id' => $usdId, 'rate' => 1.14],
             ['from_currency_id' => $eurId, 'to_currency_id' => $uahId, 'rate' => 47.00],
 
             // UAH
+            ['from_currency_id' => $uahId, 'to_currency_id' => $uahId, 'rate' => 1],
             ['from_currency_id' => $uahId, 'to_currency_id' => $usdId, 'rate' => 0.024],
             ['from_currency_id' => $uahId, 'to_currency_id' => $eurId, 'rate' => 0.021],
         ];

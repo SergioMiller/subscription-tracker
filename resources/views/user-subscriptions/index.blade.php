@@ -4,6 +4,8 @@
 
     <h2 class="mb-5">My subscription</h2>
 
+    @include('user-subscriptions._filter')
+
     @if($paginator->isEmpty())
         <p class="lg:text-primary-700">Nothing found.</p>
     @else
@@ -11,6 +13,7 @@
             <p>Next month: {{ $forecast->getTotal30() }} {{ $forecast->getCurrency()->symbol }}</p>
             <p>Next year: {{ $forecast->getTotal365() }} {{ $forecast->getCurrency()->symbol }}</p>
         </div>
+
         @foreach($items as $subscription)
             <div class="p-3 border-1 border-gray-200 rounded-md mb-5 flex flex-wrap justify-between">
                 <div>
