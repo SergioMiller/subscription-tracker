@@ -78,10 +78,11 @@ final class UserSubscriptionRepository extends AbstractRepository implements Use
         );
     }
 
-    public function activeSubscriptions(User $user): Collection
+    public function activeSubscriptions(User $user, array $with = []): Collection
     {
         return $this->getEntity()
             ->newQuery()
+            ->with($with)
             ->where('user_id', $user->getKey())
             ->where('user_subscriptions.status', SubscriptionStatusEnum::ACTIVE)
             ->get();

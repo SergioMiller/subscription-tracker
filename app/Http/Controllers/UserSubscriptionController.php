@@ -8,6 +8,7 @@ use App\Enums\Subscription\SubscriptionTypeEnum;
 use App\Interfaces\Repositories\UserSubscriptionRepositoryInterface;
 use App\Service\ExchangeRate\ExchangeRateService;
 use App\Service\Forecast\ForecastService;
+use App\Service\Stat\StatService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -18,6 +19,7 @@ final class UserSubscriptionController extends Controller
         private readonly UserSubscriptionRepositoryInterface $userSubscriptionRepository,
         private readonly ExchangeRateService $exchangeRateService,
         private readonly ForecastService $forecastService,
+        private readonly StatService $statService,
     ) {
     }
 
@@ -41,6 +43,7 @@ final class UserSubscriptionController extends Controller
                     return $item;
                 }),
             'forecast' => $this->forecastService->get($user),
+            'stat' => $this->statService->get($user),
             'filter' => [
                 'data' => [
                     'type' => SubscriptionTypeEnum::values(),

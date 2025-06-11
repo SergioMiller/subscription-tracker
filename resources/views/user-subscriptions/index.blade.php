@@ -14,6 +14,12 @@
             <p>Next year: {{ $forecast->getTotal365() }} {{ $forecast->getCurrency()->symbol }}</p>
         </div>
 
+        <div class="mb-5">
+            <p>Quantity: {{ $stat->getQuantity() }}</p>
+            <p>Amount: {{ $stat->getAmount() }} {{ $stat->getCurrency()->symbol }}</p>
+            <p>Average: {{ $stat->getAverage() }} {{ $stat->getCurrency()->symbol }}</p>
+        </div>
+
         @foreach($items as $subscription)
             <div class="p-3 border-1 border-gray-200 rounded-md mb-5 flex flex-wrap justify-between">
                 <div>
