@@ -1,6 +1,6 @@
 Installation
 ````
-docker compose up
+docker compose up --build
 make db-migrate
 make db-seed
 node build
