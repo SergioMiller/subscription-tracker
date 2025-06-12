@@ -41,12 +41,7 @@ final readonly class ForecastService
                 price: $sub->subscription->price,
             );
 
-            $interval = match ($sub->subscription->type) {
-                SubscriptionTypeEnum::DAILY => '1 day',
-                SubscriptionTypeEnum::WEEKLY => '1 week',
-                SubscriptionTypeEnum::MONTHLY => '1 month',
-                SubscriptionTypeEnum::YEARLY => '1 year',
-            };
+            $interval = $this->getInterval($sub->subscription->type);
 
             $chargeDate = $start->copy();
 
@@ -67,5 +62,15 @@ final readonly class ForecastService
             total365: round($total365 / 100, 2),
             currency: $user->defaultCurrency,
         );
+    }
+
+    private function getInterval(SubscriptionTypeEnum $type): string
+    {
+        return match ($type) {
+            SubscriptionTypeEnum::DAILY => '1 day',
+            SubscriptionTypeEnum::WEEKLY => '1 week',
+            SubscriptionTypeEnum::MONTHLY => '1 month',
+            SubscriptionTypeEnum::YEARLY => '1 year',
+        };
     }
 }
