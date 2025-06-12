@@ -17,6 +17,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
+/**
+ * @see SubscriptionServiceTest
+ */
 final readonly class SubscriptionService
 {
     public function __construct(
