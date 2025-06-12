@@ -24,13 +24,13 @@ final class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => self::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'default_currency_id' => Currency::query()->get()->random()->first()->getKey(),
+            'default_currency_id' => Currency::query()->inRandomOrder()->first()->getKey(),
         ];
     }
 
-    public function unverified(): static
+    public function unverified(): self
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,

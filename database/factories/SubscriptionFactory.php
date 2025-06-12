@@ -22,7 +22,7 @@ final class SubscriptionFactory extends Factory
             'description' => fake()->unique()->text(),
             'price' => fake()->numberBetween(100, 1000),
             'base_price' => fake()->numberBetween(100, 1000),
-            'currency_id' => Currency::query()->get()->random()->first()->getKey(),
+            'currency_id' => Currency::query()->inRandomOrder()->first()->getKey(),
             'type' => fake()->randomElement(SubscriptionTypeEnum::values()),
         ];
     }

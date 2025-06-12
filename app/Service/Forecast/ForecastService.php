@@ -11,6 +11,9 @@ use App\Service\Forecast\Dto\ResultDto;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
+/**
+ * @see ForecastServiceTest
+ */
 final readonly class ForecastService
 {
     public function __construct(private ExchangeRateService $exchangeRateService)
