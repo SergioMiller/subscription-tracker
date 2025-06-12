@@ -13,9 +13,9 @@ final class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['string', Rule::in(SubscriptionTypeEnum::values())],
-            'price_min' => ['integer', 'min:0', 'lte:price_max'],
-            'price_max' => ['integer', 'min:0', 'gte:price_min'],
+            'type' => ['nullable', 'string', Rule::in(SubscriptionTypeEnum::values())],
+            'price_min' => ['nullable', 'integer', 'min:0', 'lte:price_max'],
+            'price_max' => ['nullable', 'integer', 'min:0', 'gte:price_min'],
             'price' => ['string', Rule::in(FilterPriceEnum::values())],
             'month' => ['nullable', 'string', 'date_format:Y-m'],
         ];
