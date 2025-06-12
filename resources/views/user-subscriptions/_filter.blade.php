@@ -20,6 +20,11 @@
                         </label>
                     </div>
                 @endforeach
+                @error('type')
+                <p class="mt-1 text-sm text-red-600 dark:text-red-500">
+                    {{ $message }}
+                </p>
+                @enderror
             </div>
 
             <div>
@@ -67,6 +72,11 @@
                             </label>
                         </div>
                     @endforeach
+                    @error('price')
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-500">
+                        {{ $message }}
+                    </p>
+                    @enderror
                     <p class="text-sm text-gray-500">
                         base - ціна яка вказана в підписці </br>
                         converted - ціна яка показана користувачу

@@ -6,6 +6,7 @@ namespace App\Repositories;
 use App\Entities\Subscription;
 use App\Entities\User;
 use App\Entities\UserSubscription;
+use App\Enums\Filter\FilterPriceEnum;
 use App\Enums\Subscription\SubscriptionStatusEnum;
 use App\Interfaces\Repositories\UserSubscriptionRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -42,11 +43,11 @@ final class UserSubscriptionRepository extends AbstractRepository implements Use
                         $max = $filter['price_max'] ? ($filter['price_max'] * 100) : null;
 
                         $column = match ($filter['price']) {
-                            'base' => 'price',
-                            default => 'converted',
+                            FilterPriceEnum::BASE->value => FilterPriceEnum::BASE->value,
+                            default => FilterPriceEnum::CONVERTED->value,
                         };
 
-                        if ('converted' === $column) {
+                        if (FilterPriceEnum::CONVERTED->value === $column) {
                             $query->leftJoin('currencies', 'currencies.id', '=', 'user_subscriptions.currency_id')
                                 ->leftJoin('exchange_rates', function (JoinClause $leftJoin) use ($user) {
                                     $leftJoin->on('currencies.id', '=', 'exchange_rates.from_currency_id');

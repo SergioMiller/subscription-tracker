@@ -6,20 +6,18 @@ namespace App\Service\Forecast;
 use App\Entities\User;
 use App\Entities\UserSubscription;
 use App\Enums\Subscription\SubscriptionTypeEnum;
-use App\Interfaces\Repositories\UserSubscriptionRepositoryInterface;
 use App\Service\ExchangeRate\ExchangeRateService;
 use App\Service\Forecast\Dto\ResultDto;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 final readonly class ForecastService
 {
-    public function __construct(
-        private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
-        private ExchangeRateService $exchangeRateService,
-    ) {
+    public function __construct(private ExchangeRateService $exchangeRateService)
+    {
     }
 
-    public function get(User $user): ResultDto
+    public function get(User $user, Collection $subscriptions): ResultDto
     {
         $now = now();
         $end30 = $now->copy()->addDays(30);
@@ -31,8 +29,6 @@ final readonly class ForecastService
         /**
          * @var UserSubscription[] $subscriptions
          */
-        $subscriptions = $this->userSubscriptionRepository->activeSubscriptions($user);
-
         foreach ($subscriptions as $sub) {
             $start = Carbon::parse($sub['start_at']);
 

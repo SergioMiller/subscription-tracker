@@ -5,29 +5,21 @@ namespace App\Service\Stat;
 
 use App\Entities\User;
 use App\Entities\UserSubscription;
-use App\Enums\Subscription\SubscriptionTypeEnum;
-use App\Interfaces\Repositories\UserSubscriptionRepositoryInterface;
 use App\Service\ExchangeRate\ExchangeRateService;
 use App\Service\Stat\Dto\ResultDto;
 use Illuminate\Support\Collection;
 
 final readonly class StatService
 {
-    public function __construct(
-        private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
-        private ExchangeRateService $exchangeRateService,
-    ) {
+    public function __construct(private ExchangeRateService $exchangeRateService)
+    {
     }
 
-    public function get(User $user): ResultDto
+    public function get(User $user, Collection $subscriptions): ResultDto
     {
         /**
          * @var Collection|UserSubscription[] $subscriptions
          */
-        $subscriptions = $this->userSubscriptionRepository->activeSubscriptions($user, [
-            'subscription.currency'
-        ]);
-
         $prices = [];
         foreach ($subscriptions as $sub) {
             $prices[] = $this->exchangeRateService->getUserPrice(
