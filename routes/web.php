@@ -7,7 +7,6 @@ use App\Http\Controllers\UserSubscriptionController;
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 
-
 Route::group(['middleware' => [UserMiddleware::class]], static function () {
     Route::get('/', [SubscriptionController::class, 'index'])->name('subscriptions.index');
 

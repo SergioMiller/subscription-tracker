@@ -9,6 +9,9 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\SimpleCache\InvalidArgumentException;
 
+/**
+ * @see ExchangeRateServiceTest
+ */
 final readonly class ExchangeRateService
 {
     public function __construct(
@@ -20,7 +23,7 @@ final readonly class ExchangeRateService
     /**
      * @throws InvalidArgumentException
      */
-    public function getBasePrice(Currency $currency, int $price): int
+    public function getBasePrice(Currency $currency, int $price): float
     {
         if (Currency::DEFAULT_CURRENCY_ID === $currency->getKey()) {
             return $price;
@@ -34,7 +37,7 @@ final readonly class ExchangeRateService
     /**
      * @throws InvalidArgumentException
      */
-    public function getUserPrice(Currency $currency, Currency $userCurrency, int $price): int
+    public function getUserPrice(Currency $currency, Currency $userCurrency, int $price): float
     {
         if ($currency->getKey() === $userCurrency->getKey()) {
             return $price;
@@ -66,8 +69,8 @@ final readonly class ExchangeRateService
         return $rate;
     }
 
-    private function applyRate(int $price, float $rate): int
+    private function applyRate(int $price, float $rate): float
     {
-        return (int) ($price * $rate);
+        return round($price * $rate, 2);
     }
 }

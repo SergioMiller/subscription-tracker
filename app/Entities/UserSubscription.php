@@ -56,14 +56,14 @@ final class UserSubscription extends Model
         return round($this->price / 100, 2);
     }
 
-    public function setUserPrice(int $userPrice): static
+    public function setUserPrice(float $userPrice): self
     {
         $this->user_price = $userPrice;
 
         return $this;
     }
 
-    public function setUserCurrency(Currency $userCurrency): static
+    public function setUserCurrency(Currency $userCurrency): self
     {
         $this->user_currency = $userCurrency;
 
