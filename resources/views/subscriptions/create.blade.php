@@ -56,13 +56,13 @@
 
             @foreach($currencies as $currency)
                 <div class="flex items-center mb-4">
-                    <input id="currency-option-{{ $currency->id }}"
+                    <input id="currency-option-{{ $currency->getKey() }}"
                            type="radio"
                            name="currency_id"
-                           value="{{ old('id', $currency->id) }}"
+                           value="{{ old('id', $currency->getKey())}}"
                            class="w-4 h-4 border-gray-300 cursor-pointer"
                     >
-                    <label for="currency-option-{{ $currency->id }}"
+                    <label for="currency-option-{{ $currency->getKey() }}"
                            class="block ms-2  text-sm font-medium text-gray-900 cursor-pointer">
                         {{ $currency->name }}
                     </label>

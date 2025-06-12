@@ -99,7 +99,6 @@
                 </p>
                 @enderror
             </div>
-            <div>09</div>
         </div>
 
         <p class="text-right">

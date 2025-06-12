@@ -9,52 +9,13 @@
     @if($paginator->isEmpty())
         <p class="lg:text-primary-700">Nothing found.</p>
     @else
-        <div class="mb-5">
-            <p>Next month: {{ $forecast->getTotal30() }} {{ $forecast->getCurrency()->symbol }}</p>
-            <p>Next year: {{ $forecast->getTotal365() }} {{ $forecast->getCurrency()->symbol }}</p>
-        </div>
 
-        <div class="mb-5">
-            <p>Quantity: {{ $stat->getQuantity() }}</p>
-            <p>Amount: {{ $stat->getAmount() }} {{ $stat->getCurrency()->symbol }}</p>
-            <p>Average: {{ $stat->getAverage() }} {{ $stat->getCurrency()->symbol }}</p>
-        </div>
+        @include('user-subscriptions._forecast', ['forecast' => $forecast])
 
-        @foreach($items as $subscription)
-            <div class="p-3 border-1 border-gray-200 rounded-md mb-5 flex flex-wrap justify-between">
-                <div>
-                    <p class="lg:text-primary-800 text-gray-800 mb-2">{{ $subscription->subscription->name }}</p>
-                    <p class="lg:text-primary-800 text-gray-800 mb-2">
-                        {{ $subscription->status }}
-                    </p>
-                    <p class="text-gray-500">{{ $subscription->subscription->description }}</p>
-                </div>
-                <div class="text-right">
-                    <p>
-                        <span class="text-green-700 font-bold">
-                            {{ $subscription->getUserPrice() }} {{ $subscription->getUserCurrency()->symbol }}
-                        </span>
-                        <span class="text-gray-500"> per {{ $subscription->subscription->type->per() }}</span>
-                    </p>
-                    <p class="text-gray-600">
-                        Start at:
-                        <span class="text-gray-500">{{ $subscription->start_at->format('M, d Y H:i') }}</span>
-                    </p>
-                    <p class="text-gray-600">
-                        Finish at:
-                        <span class="text-gray-500">{{ $subscription->finish_at->format('M, d Y H:i') }}</span>
-                    </p>
-                </div>
-            </div>
-        @endforeach
+        @include('user-subscriptions._stat', ['stat' => $stat])
+
+        @include('user-subscriptions._list', ['items' => $items])
+
     @endif
 
 @endsection
-
-<script>
-    function submit(link) {
-        if (confirm('Are you sure you want to do this action?')) {
-            document.getElementById(link.dataset.form).submit();
-        }
-    }
-</script>
